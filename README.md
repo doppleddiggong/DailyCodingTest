@@ -19,3 +19,16 @@ __최대공약수와 최소공배수__
 __크기가 작은 부분 문자열__
 🔗 https://school.programmers.co.kr/learn/courses/30/lessons/147355  
 - p의 길이 ≤ t의 길이 ≤ 10,000 라는 조건을 간과하고, stoi로만 문제를 풀려고 했음
+
+__정수 삼각형__
+🔗 https://school.programmers.co.kr/learn/courses/30/lessons/43105
+- 동적 탐색법인데,
+[0,0,0,0]
+[0,0,0,1]
+...
+- 이런식으로 풀려고 했음. 재귀나. 뭐 그렇게 써야할것 같은데.
+- 어떻게 풀어야할지 모르겠음
+
+
+
+
