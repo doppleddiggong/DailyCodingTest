@@ -20,6 +20,8 @@ __크기가 작은 부분 문자열__
 🔗 https://school.programmers.co.kr/learn/courses/30/lessons/147355  
 - p의 길이 ≤ t의 길이 ≤ 10,000 라는 조건을 간과하고, stoi로만 문제를 풀려고 했음
 
+---
+
 __정수 삼각형__
 🔗 https://school.programmers.co.kr/learn/courses/30/lessons/43105
 - 동적 탐색법인데,
