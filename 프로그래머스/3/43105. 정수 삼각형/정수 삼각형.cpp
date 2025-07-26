@@ -6,26 +6,22 @@
 using namespace std;
 
 int solution(vector<vector<int>> triangle) {
-    vector<vector<int>> map(triangle);
-
-    for (int cur_floor = 0; cur_floor < map.size()-1; cur_floor++)
+    for (int cur_floor = 1; cur_floor < triangle.size(); cur_floor++)
     {
-        for (int room = 0; room < map[cur_floor].size(); room++)
+        for (int room = 0; room < triangle[cur_floor].size(); room++)
         {
-            int value = map[cur_floor][room];
+            int from_left = 0; 
+            if (room > 0)
+                from_left = triangle[cur_floor - 1][room - 1];
 
-            for (int i = 0; i < 2; i++)
-            {
-                int target = triangle[cur_floor+1][room + i];
-                if (value + target > map[cur_floor+1][room+i] )
-                {
-                    map[cur_floor+1][room+i] = value + target;
-                }
-            }
+            int from_right = 0; 
+            if (room < triangle[cur_floor - 1].size())
+                from_right = triangle[cur_floor - 1][room];
+
+            triangle[cur_floor][room] += std::max(from_left, from_right);
         }
     }
 
-    auto last = map.back();
-    auto max = std::max_element(last.begin(), last.end());
+    auto max = std::max_element(triangle.back().begin(), triangle.back().end());
     return *max;
 }
