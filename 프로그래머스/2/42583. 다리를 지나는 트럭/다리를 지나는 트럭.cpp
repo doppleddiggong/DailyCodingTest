@@ -40,7 +40,7 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
         for (auto v : remove_truck)
             bride_truck.erase(v);
 
-        while ( bridge_weight <= weight && 
+        if ( bridge_weight <= weight && 
              truck_queue.size() > 0)
         {
             auto truck_queue_weight = truck_queue.front();
@@ -52,11 +52,6 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
                 truck_queue.pop();
 
                 bride_truck.insert( std::make_pair(truck_weights.size() - (truck_queue.size()+1), 0));
-                break;
-            }
-            else
-            {
-                break;
             }
         }
 
