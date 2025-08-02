@@ -41,7 +41,7 @@ __행렬의 곱셉__
 ---
 
 __베스트앨범__
-🔗 [https://school.programmers.co.kr/learn/courses/30/lessons/43105](https://school.programmers.co.kr/learn/courses/30/lessons/42579)
+🔗https://school.programmers.co.kr/learn/courses/30/lessons/42579
 - Vector 데이터를 재조합하고, 데이터들을 정렬하는 문제인데
 - c#에서는 Liunq를 이용해서 풀수 있는 문제가, map형태의 데이터를 정렬하려면 vector<pair> 만들어서 정렬하는 문제가 되어버려서 어려웠음
  
