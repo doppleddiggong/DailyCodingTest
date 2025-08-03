@@ -6,37 +6,40 @@
 
 using namespace std;
 
-vector<int> solution(vector<string> genres, vector<int> plays) {
-   // 장르, 토탈 재생횟수
-    std::unordered_map<string, int> genres_play_count;
-    // 장르, 플레이수, 인덱스
-    std::unordered_map<string, std::multimap<int, int, std::greater<int>>> genres_play;
-
-    for (int i = 0; i < genres.size(); i++)
+vector<int> solution(vector<string> gen, vector<int> plays) {
+    std::unordered_map< string, std::vector< std::pair<int, int>> > map;
+    std::unordered_map< string, int> acc_play;
+    for (int i = 0; i < gen.size(); i++)
     {
-        genres_play[ genres[i] ].emplace( plays[i], i);
-        genres_play_count[genres[i]] += plays[i];
+        map[ gen[i] ].emplace_back(i, plays[i]);
+        acc_play[gen[i]] += plays[i];
     }
 
-    // 장르, 토탈 재생횟수 정렬
-    std::vector< std::pair<string, int>> genres_sort(genres_play_count.begin(), genres_play_count.end());
-    std::sort(genres_sort.begin(), genres_sort.end(), 
-        [](const pair<string, int>& a, const pair<string, int>& b)
-        { 
+    std::vector<std::pair<string, int>> order(acc_play.begin(), acc_play.end());
+    std::sort( order.begin(), order.end(), 
+        [](std::pair<string, int> a, std::pair<string, int> b) { 
             return a.second > b.second;
         });
 
     vector<int> answer;
-    for (auto& gen : genres_sort)
+
+    for (auto k : order)
     {
-        int song_count = min(2, (int)genres_play[gen.first].size());
-        for(auto song : genres_play[gen.first])
+        auto v_list = map[k.first];
+
+        std::sort(v_list.begin(), v_list.end(), 
+            []( std::pair<int, int> a, std::pair<int, int> b) {
+                if (a.second == b.second)
+                    return a.first < b.first;
+                return a.second > b.second;
+            });
+
+        int min_v = 2;
+        min_v = min(min_v, (int)v_list.size());
+
+        for (int i = 0; i < min_v; i++)
         {
-            if(song_count > 0)
-            {
-                answer.push_back(song.second);
-                song_count--;
-            }
+            answer.push_back(v_list[i].first);
         }
     }
 
