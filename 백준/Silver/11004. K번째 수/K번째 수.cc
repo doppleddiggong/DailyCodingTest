@@ -20,7 +20,7 @@ int main()
         cin >> data[i];
     }
     
-    sort(data.begin(), data.end());
+    nth_element(data.begin(), data.begin() + M-1, data.end());
 
     cout << data[M-1];
     
