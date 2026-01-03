@@ -23,18 +23,9 @@ int main()
 
     sort(data.begin(), data.end());
 
-    int c = N;
     for (auto v : data)
     {
-        c--;
-        if (c == 0)
-        {
-            cout << v;
-        }
-        else
-        {
-            cout << v << '\n';
-        }
+        cout << v << '\n';
     }
     return 0;
 }
