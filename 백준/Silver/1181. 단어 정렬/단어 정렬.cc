@@ -26,7 +26,7 @@ int main()
         cin >> data[i];
     }
 
-    sort(data.begin(), data.end(), [](string o1, string o2) {
+    sort(data.begin(), data.end(), [](const string& o1, const string& o2) {
         if (o1.length() == o2.length())
             return o1 < o2;
         return o1.length() < o2.length();
