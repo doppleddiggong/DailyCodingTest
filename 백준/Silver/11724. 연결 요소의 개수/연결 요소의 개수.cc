@@ -9,8 +9,6 @@ using namespace std;
 static vector<vector<int>> list;
 // 방문
 static vector<bool> visit;
-// 방문 예정
-static stack<int> ready;
 
 // 모두 방문했니? 안했으면 안한곳 줘
 int GetNotVisit()
@@ -28,29 +26,14 @@ int GetNotVisit()
 
 void Travel(int node)
 {
-    // 이미 방문한곳이라 더이상 방문을 안해도 됩니다
-    if (visit[node] == true)
-        return;
-
     // 방문장을 찍어요
     visit[node] = true;
 
     // 다음 방문지를 예약해요
-    for (auto d : list[node])
+    for (auto next : list[node])
     {
-        if( visit[d] == false)
-            ready.push(d);
-    }
-
-    while( !ready.empty())
-    {
-        int next_node = ready.top();
-        ready.pop();
-
-        if (visit[next_node])
-            continue;
-
-        Travel(next_node);
+        if( visit[next] == false)
+            Travel(next);
     }
 }
 
@@ -74,30 +57,21 @@ int main()
         int n, e;
         cin >> n >> e;
 
-        // 양방향 처리
         list[n].push_back(e);
         list[e].push_back(n);
     }
 
     int result = 0;
-    while (true)
+    for(int i = 1; i <= N; i++)
     {
-        int next_node = GetNotVisit();
-
-        if (next_node == -1)
-            break;
-        else
+        if (!visit[i])
         {
-            Travel(next_node);
-
+            Travel(i);
             result++;
         }
     }
 
-
-
     cout << result;
-
 
     return 0;
 }
