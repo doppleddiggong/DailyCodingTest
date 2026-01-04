@@ -15,7 +15,7 @@ int main()
     cin >> N;
     cin.ignore();
 
-    vector< vector<string> > result(N);
+    vector< string > result(N);
 
     for (int i = 0; i < N; i++)
     {
@@ -25,26 +25,23 @@ int main()
         stringstream ss(V);
 
         string w;
-        vector<string> data;
+        string res;
 
         while (ss >> w)
         {
             std::reverse(w.begin(), w.end());
 
-            data.push_back(w);
+            res += w;
+            res += ' ';
+            
         }
 
-        result[i] = data;
+        result[i] = res;
     }
 
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < result[i].size(); j++)
-        {
-            cout << result[i][j] << " ";
-        }
-
-        cout << "\n";
+        cout << result[i] << "\n";
     }
 
     return 0;
