@@ -18,25 +18,23 @@ int main()
     int N;
     cin >> N;
 
-    vector<string> data;
+    vector<string> data(N);
 
     for (int i = 0; i < N; i++)
     {
         string V;
-        cin >> V;
-
-        // 1. 중복값..
-        if (std::find(data.begin(), data.end(), V) == data.end())
-            data.push_back(V);
+        cin >> data[i];
     }
 
     sort(data.begin(), data.end(), [](string o1, string o2) {
         if (o1.length() == o2.length())
-        {
-            return std::lexicographical_compare(o1.begin(), o1.end(), o2.begin(), o2.end());
-        }
+            return o1 < o2;
         return o1.length() < o2.length();
-    });
+        });
+
+
+    data.erase(std::unique(data.begin(), data.end()), data.end());
+
 
     for (auto c : data)
     {
