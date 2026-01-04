@@ -1,54 +1,71 @@
 #include <iostream>
-#include <queue>
-#include <stack>
+#include <algorithm>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
+
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int N;
     cin >> N;
 
-    vector<std::pair<int, int>> tower;
-    vector<int> answer(N);
-    // 나보다 키 큰 왼쪽에 있는 타워
-    stack<std::pair<int, int>> data;
+    vector<int> tower(N);
+    vector<int> result(N);
 
-    for (int i = 1; i <= N; i++)
+    stack< pair<int, int> > left;
+
+
+    // 타워 데이터를 모두 받는다
+    for (int i = 0; i < N; i++)
     {
         int V;
         cin >> V;
 
-        tower.push_back(pair<int, int>(i, V));
+        // 타워의 index, 타워의 높이
+        tower[i] = V;
     }
 
-    // 6 9 5 7 4
+
+    // <> 6 9 5 7 4 를 순회한다
+    // 왼쪽에서 오른쪽으로 가면서,
+    // 왼쪽에 있는 타워를 체크한다
     for (int i = 0; i < N; i++)
     {
-        auto pointer = tower[i];
+        // 내 왼편에 있는 타워가 나보다 작은것들은 모두 죽어라
+        while (!left.empty() && left.top().second < tower[i] )
+        {
+            left.pop();
+        }
 
-        // 나보다 왼쪽에 있는 타워들중에 나보다 키가 작은 애들은 다 죽어라
-        while (!data.empty() && pointer.second >= data.top().second)
-            data.pop();
+        if (left.empty() )
+        {
+            // 내 왼편에 있는 타워들이 아무것도 없다.
+            // 나보다 큰 타워가 없다, 내 정보를 수신할 타워가 없다
+            result[i] = 0;
+        }
+        else 
+        {
+            // 탑 정보가 있다
+            // 그게 내 왼편에 있는데, 나보다 큰 타워다.
+            // 해당 타워의 인덱스를 넣어야 한다...
+            // 인덱스를 찾아온다
+            result[i] = left.top().first+1;
+        }
 
-        if (data.empty())
-            answer[i] = 0;
-        else
-            answer[i] = data.top().first;
-
-        data.push(tower[i]);
+        left.push( pair<int, int>( i, tower[i]));
     }
 
-
-    for (int i = 0; i < N; i++)
+    for(int i = 0; i < N; i++ )
     {
-        cout << answer[i] << " ";
-    }
+        cout << result[i] << ' ';
 
+    }
 
     return 0;
-};
+}
