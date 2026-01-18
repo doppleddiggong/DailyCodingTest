@@ -1,88 +1,66 @@
 #include <iostream>
-#include <stack>
 #include <vector>
 
 using namespace std;
 
-// 관계도
-static vector<vector<int>> A;
-// 방문기록
-static vector<bool> visit;
-static bool correct = false;
+static vector<vector<int>> friendData;
+static vector<bool> visited;
 
-int GetUnvisitNode()
+bool Travel(int start, int depth)
 {
-    for (int i = 0; i < visit.size(); i++)
+    if (depth == 4)
     {
-        if (visit[i] == true)
+        return true;
+    }
+
+    visited[start] = true;
+
+    for (auto e : friendData[start])
+    {
+        if (visited[e] == false)
         {
-            return i;
+            if( Travel(e, depth+1) )
+                return true;
         }
     }
 
-    return -1;
+    visited[start] = false;
+    return false;
 }
 
-void DFS(int start, int link)
-{
-    if (link == 4)
-    {
-        correct = true;
-        return;
-    }
-
-    // 이미 방문했다
-    if (visit[start])
-        return;
-
-    visit[start] = true;
-
-
-    for (int next : A[start])
-    {
-        if (!visit[next])
-        {
-            DFS(next, link + 1);
-            if (correct)
-                return;
-        }
-    }
-
-    visit[start] = false;
-}
 
 int main()
 {
-    int N, E;
-    cin >> N >> E;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
+    int N, M;
+    cin >> N >> M;
 
-    A.resize(N);
-    visit.resize(N);
+    friendData.resize(N);
+    visited = vector<bool>(N, false);
 
-    correct = false;
-
-    // 친구 관계도 데이터를 받아요.
-    for (int i = 0; i < E; i++)
+    for (int i = 0; i < M; i++)
     {
-        int n, e;
+        int a, b;
 
-        cin >> n >> e;
-        A[n].push_back(e);
-        A[e].push_back(n);
+        cin >> a >> b;
+
+        friendData[a].push_back(b);
+        friendData[b].push_back(a);
     }
 
     for (int i = 0; i < N; i++)
     {
-        if (correct == false)
+        if (Travel(i, 0))
         {
-            DFS(i, 0);
+            cout << "1" << "\n";
+            return 0;
         }
     }
 
-    if (correct)
-        cout << "1";
-    else
-        cout << "0";
-}
+    cout << "0" << "\n";
 
+    return 0;
+}
