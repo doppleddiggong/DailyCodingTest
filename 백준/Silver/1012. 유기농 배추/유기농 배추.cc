@@ -1,9 +1,21 @@
 #include <iostream>
-#include <map>
 #include <algorithm>
 #include <stack>
+#include <vector>
+#include <cstring>
 
 using namespace std;
+
+
+static vector<pair<int, int>> dir
+{
+    {-1, 0},
+    {1, 0},
+
+    {0, -1},
+    {0, 1},
+};
+
 
 int main()
 {
@@ -12,8 +24,13 @@ int main()
     cout.tie(0);
 
 
+
+
+
     int ASK;
     cin >> ASK;
+
+
 
 
     for (int z = 0; z < ASK; z++)
@@ -23,12 +40,8 @@ int main()
         cin >> M >> N >> K;
 
         // init map
-        map<pair<int, int>, bool> grid;
-        for (int x = 0; x < M; x++)
-        {
-            for (int y = 0; y < N; y++)
-                grid[ pair<int, int>(x, y) ] = false;
-        }
+        bool grid[51][51];
+        memset(grid, 0, sizeof(grid));
 
         // data set
         for (int k = 0; k < K; k++)
@@ -36,65 +49,43 @@ int main()
             int x, y;
             cin >> x >> y;
 
-            grid[pair<int, int>(x, y)] = true;
+            grid[x][y] = true;
         }
 
 
         int answer = 0;
         stack<pair<int, int>> ss;
 
+
+
         // calc
         for (int x = 0; x < M; x++)
         {
             for (int y = 0; y < N; y++)
             {
-                auto pos = pair<int, int>(x, y);
-                if (grid[pos])
+                if (grid[x][y])
                 {
+                    auto pos = pair<int, int>(x, y);
                     ss.push(pos);
-                    grid[pos] = false;
+                    grid[pos.first][pos.second] = false;
 
                     while (!ss.empty())
                     {
                         pair<int, int> start = ss.top();
                         ss.pop();
 
-                        auto pos_l = pair<int, int>(start.first -1, start.second);
-                        if (0 <= pos_l.first && pos_l.first < M)
+                        for( auto d : dir )
                         {
-                            if (grid[pos_l])
-                            {
-                                ss.push(pos_l);
-                                grid[pos_l] = false;
-                            }
-                        }
+                            pair<int, int> check = { start.first + d.first, start.second + d.second };
 
-                        auto pos_r = pair<int, int>(start.first +1, start.second);
-                        if (0 <= pos_r.first && pos_r.first < M)
-                        {
-                            if (grid[pos_r])
+                            if (0 <= check.first && check.first < M &&
+                                0 <= check.second && check.second < N)
                             {
-                                ss.push(pos_r);
-                                grid[pos_r] = false;
-                            }
-                        }
-
-                        auto pos_u = pair<int, int>(start.first, start.second -1);
-                        if (0 <= pos_u.second && pos_u.second < N)
-                        {
-                            if (grid[pos_u])
-                            {
-                                ss.push(pos_u);
-                                grid[pos_u] = false;
-                            }
-                        }
-                        auto pos_d = pair<int, int>(start.first, start.second +1);
-                        if (0 <= pos_d.second && pos_d.second < N)
-                        {
-                            if (grid[pos_d])
-                            {
-                                ss.push(pos_d);
-                                grid[pos_d] = false;
+                                if (grid[check.first][check.second])
+                                {
+                                    ss.push(check);
+                                    grid[check.first][check.second] = false;
+                                }
                             }
                         }
                     }
