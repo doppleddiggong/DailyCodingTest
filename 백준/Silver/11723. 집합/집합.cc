@@ -1,6 +1,5 @@
 #include <iostream>
-#include <set>
-#include <unordered_map>
+
 
 using namespace std;
 
@@ -10,8 +9,8 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    unordered_map<int, bool> data;
-
+    bool data[21] = { false };
+    
     int N;
     cin >> N;
 
